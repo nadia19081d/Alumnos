@@ -2,7 +2,7 @@ var alumnos = []
 if (localStorage.getItem('estudiante1')) {
 	const savedStudents = JSON.parse(localStorage.getItem('estudiante1'));
     for (let data of savedStudents) {
-			let alumno = new Estudiante(data.nombre, data.apellido, data.edad);
+			let alumno = new Estudiante(data.nombre, data.apellido, data.edad,data.calificacion, data.materia,  data.grupo);
 			if (data.materias) alumno.materias = data.materias;
 			if (data.calificaciones) alumno.calificaciones = data.calificaciones;
     alumnos.push(alumno);
@@ -62,7 +62,7 @@ function searchBar() {
 }
 
 
-function grades(grade, estudiante, index_de_estudiante_en_saved_students){
+/*function grades(grade, estudiante, index_de_estudiante_en_saved_students){
 	
 	const select = document.createElement("select")
 	const defaultOption = document.createElement('option')
@@ -97,11 +97,11 @@ function grades(grade, estudiante, index_de_estudiante_en_saved_students){
 	
 	
 	
-}
+} */
 function mostrar_estudiantes(estudiantes) {
 	estudiantes.sort((estudiante1, estudiante2) => estudiante1.nombre.localeCompare(estudiante2.nombre, 'es', { sensitivity: 'base' }));
 	estudiantes.forEach((student, index) => {
-		const gropus_saved = JSON.parse(localStorage.getItem('groups'));
+		// const gropus_saved = JSON.parse(localStorage.getItem('groups'));
 		
 		const nombreTD = document.createElement('td')
 		nombreTD.innerHTML = student.nombre
@@ -109,21 +109,18 @@ function mostrar_estudiantes(estudiantes) {
 		appellidoTD.innerHTML = student.apellido
 		const edadTD = document.createElement('td')
 		edadTD.innerHTML = student.edad
-		
-		const groupsTD = document.createElement('td')
-		const selectGroup = groups(gropus_saved, student, index)
-		groupsTD.appendChild(selectGroup)
-		
+		const materiaTD = document.createElement('td')
+		materiaTD.innerHTML = student.materia
 		const gradesTD = document.createElement('td')
-		const grade = [1,2,3,4,5,6,7,8,9,10]
-		const gradeStudent = grades(grade,  student, index)
-		gradesTD.appendChild(gradeStudent)
+		gradesTD.innerHTML = student.calificacion
+		const groupTD = document.createElement('td')
+		groupTD.innerHTML = student.grupo;
 		
 		const tableRow = document.createElement("tr")
 		tableRow.appendChild(nombreTD)
 		tableRow.appendChild(appellidoTD)
 		tableRow.appendChild(edadTD)
-		tableRow.appendChild(groupsTD)
+		tableRow.appendChild(materiaTD)
 		tableRow.appendChild(gradesTD)
 		tableBody.appendChild(tableRow)
 
@@ -134,7 +131,7 @@ function mostrar_estudiantes(estudiantes) {
 		searchBar();
 		mostrar_estudiantes(alumnos)
 		
-function groups(group, estudiante, index_de_estudiante_en_saved_students){
+/* function groups(group, estudiante, index_de_estudiante_en_saved_students){
 	const select = document.createElement("select")
 
 	const defaultOption = document.createElement('option')
@@ -172,11 +169,8 @@ function groups(group, estudiante, index_de_estudiante_en_saved_students){
 
 	return select
 }
+*/
 
-
-function areaAlumnio(){
-
-}
 
 
 

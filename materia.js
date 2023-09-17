@@ -3,8 +3,8 @@ if (localStorage.getItem('estudiante1')) {
 	const savedStudents = JSON.parse(localStorage.getItem('estudiante1'));
     for (let data of savedStudents) {
 			let alumno = new Estudiante(data.nombre, data.apellido, data.edad);
-			if (data.materias) alumno.materias = data.materias;
-			if (data.calificaciones) alumno.calificaciones = data.calificaciones;
+			if (data.materia) alumno.materia = data.materia;
+			if (data.calificacion) alumno.calificacion = data.calificacion;
     alumnos.push(alumno);
     }
 }
@@ -29,7 +29,7 @@ function inscribirMateria() {
     alumnoSeleccionado.inscribirMateria(materia);
 
     // Guardar en localStorage (si estás usando esa funcionalidad)
-    localStorage.setItem('alumnos', JSON.stringify(alumnos));
+    localStorage.setItem('estudiante1', JSON.stringify(alumnos));
 }
 
 actualizarDropdownAlumnos()
