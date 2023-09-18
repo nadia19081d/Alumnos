@@ -18,3 +18,8 @@ SubjectButton.onclick = function() {
 };
 
 
+const gradeButton = document.getElementById('grade');
+gradeButton.onclick = function() {
+  window.location.href = "calificacion.html";
+};
+

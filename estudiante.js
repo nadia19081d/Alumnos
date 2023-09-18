@@ -13,7 +13,7 @@ class Estudiante {
 	}
 
 	asignarCalificacion(materia, calificacion) {
-	this.calificaciones[materia] = calificacion;
+	this.calificacion[materia] = calificacion;
 	}
 
 	promedio() {
