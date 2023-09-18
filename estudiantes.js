@@ -9,7 +9,18 @@ if (localStorage.getItem('estudiante1')) {
     }
 }
 
+var grupos=[]
 
+if(localStorage.getItem("grupos")){
+	const savedGroups = JSON.parse(localStorage.getItem("grupos"));
+	for(let data of savedGroups){
+		let grupo = new Grupo(data.nombreGrupo); 
+			console.log(data.alumnos)
+			if(data.alumnos) grupo.alumnos = data.alumnos;
+			grupos.push(grupo)
+			console.log(grupos)
+	}
+}
 
 const main = document.getElementById('contenedor')
 console.log(alumnos)
@@ -18,12 +29,13 @@ const table = document.createElement("table")
 table.innerHTML = `
 
 <thead>
+	<th>Group</th>
 	<th>Name</th>
 	<th>Last name</th>
 	<th>Age</th>
 	
-	<th>Course</th>
-	<th>Grade</th>
+	<th>Assignatures</th>
+	<th>Grades</th>
 </thead>
 `
 

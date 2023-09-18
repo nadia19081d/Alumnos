@@ -18,11 +18,26 @@ class Estudiante {
 
 	promedio() {
 	let suma = 0;
-	let materias = Object.keys(this.calificaciones);
+	let materias = Object.keys(this.calificacion);
 	for (let materia of materias) {
-		suma += this.calificaciones[materia];
+		suma += this.calificacion[materia];
 	}
 	return suma / materias.length;
 }
 
+}
+
+class Grupo {
+    constructor(nombreGrupo) {
+        this.nombreGrupo = nombreGrupo;
+        this.alumnos = [];
+    }
+
+    agregarAlumno(alumno) {
+        if (alumno instanceof Estudiante) {
+            this.alumnos.push(alumno);
+        } else {
+            console.error('El objeto proporcionado no es una instancia de Estudiante');
+        }
+    }
 }
