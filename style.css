@@ -169,3 +169,6 @@ td{
   width: 608px;
   align-items: center;
 }
+select{
+  min-width: 100px;
+}
