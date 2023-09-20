@@ -1,9 +1,9 @@
 var alumnos = []
-//let grupoA = new Grupo('A');
-//let grupoB = new Grupo('B');
+let grupoA = new Grupo('A');
+let grupoB = new Grupo('B');
 var grupos=[]
-//grupos.push(grupoA)
-//grupos.push(grupoB)
+grupos.push(grupoA)
+grupos.push(grupoB)
 
 if(localStorage.getItem("grupos")){
 	const savedGroups = JSON.parse(localStorage.getItem("grupos"));
