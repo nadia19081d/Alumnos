@@ -43,6 +43,7 @@ const table = document.createElement("table")
 table.innerHTML = `
 
 <thead>
+	<th>Group</th>
 	<th>Name</th>
 	<th>Last name</th>
 	<th>Age</th>

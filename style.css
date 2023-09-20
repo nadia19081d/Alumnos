@@ -93,11 +93,17 @@ table {
   font-size: 18px; /* Increase font-size */
 }
 th td{
-  text-align: left; /* Left-align text */
+  border-collapse: collapse; 
+  text-align: center; /* Left-align text */
   padding: 12px;
+  border: 1px solid #ddd;
+
 }
 tr{
-  border-bottom: 1px solid #ddd;
+  text-align: left;
+  border: 1px solid #ddd;
+  padding-left: 20px;
+
 }
 #home {
   position: fixed;
@@ -113,7 +119,7 @@ img{
 
 #contenedor{
   display: flex;
-  
+  align-items: center;
   justify-content: center;
   flex-direction: column;
 
@@ -137,4 +143,29 @@ fieldset {
 }
 fieldset:last-of-type {
   border-bottom: none;
+}
+
+.rotada {
+  transform: rotateX(180deg);
+}
+
+.tabla-grupo{
+  margin-top: 20px;
+  max-width: fit-content;
+}
+tr{
+  margin: 10px;
+  padding: 20px;
+  
+}
+td{
+  padding-right: 20px;
+}
+.studentHeader{
+  display: flex;
+  align-items: center;
+}
+.StudentsInput{
+  width: 608px;
+  align-items: center;
 }

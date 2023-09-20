@@ -1,33 +1,223 @@
-function myFunction() {
-  // Declare variables
-  var input, filter, table, tr, td, i, txtValue;
-  input = document.getElementById("myInput");
-  filter = input.value.toUpperCase();
-  table = document.getElementById("myTable");
-  tr = table.getElementsByTagName("tr");
-
-  // Loop through all table rows, and hide those who don't match the search query
-  for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName("td")[0];
-    if (td) {
-      txtValue = td.textContent || td.innerText;
-      if (txtValue.toUpperCase().indexOf(filter) > -1) {
-        tr[i].style.display = "";
-      } else {
-        tr[i].style.display = "none";
-      }
+var alumnos = []
+if (localStorage.getItem('estudiante1')) {
+	const savedStudents = JSON.parse(localStorage.getItem('estudiante1'));
+    for (let data of savedStudents) {
+			let alumno = new Estudiante(data.nombre, data.apellido, data.edad);
+			if (data.materia) alumno.materia = data.materia;
+			if (data.calificacion) alumno.calificacion = data.calificacion;
+    alumnos.push(alumno);
     }
-  }
 }
 
-function fullName(estudiantes){
-	const newArr =[]
-	estudiantes.sort((estudiante1, estudiante2) => estudiante1.nombre.localeCompare(estudiante2.nombre, 'es', { sensitivity: 'base' }));
-	estudiantes.forEach(estudiante=> {
+var grupos=[]
+
+if(localStorage.getItem("grupos")){
+	const savedGroups = JSON.parse(localStorage.getItem("grupos"));
+	for(let data of savedGroups){
+		let grupo = new Grupo(data.nombreGrupo); 
+			console.log(data.alumnos)
+			if(data.alumnos) {
+
+				
+				const alumnosComoClase = data.alumnos.map(alumno => {
+					const alumnoClase = new Estudiante(alumno.nombre, alumno.apellido, alumno.edad)
+					alumnoClase.calificacion = alumno.calificacion
+					alumnoClase.materia = alumno.materia
+					return alumnoClase
+				})
+				
+				console.log('clase alumnos')
+				console.log(alumnosComoClase)
+				grupo.alumnos = alumnosComoClase
+			}
+			grupos.push(grupo)
+	}
+}
+console.log("Grupos")
+console.log(grupos)
+
+const main = document.getElementById('contenedor')
+console.log(alumnos)
+
+const table = document.createElement("table")
+table.classList = "tabla-grupo"
+table.innerHTML = `
+
+<thead>
+	<th>Name</th>
+	<th>Last name</th>
+	<th>Age</th>
+	
+	<th>Assignatures</th>
+	<th >
+		<div> Average <img class="rotada" id ="desendant" width="15" height="15" src="https://img.icons8.com/cotton/64/sorting-arrows--v3.png" alt="generic-sorting"/>
+		</div></th>
+</thead>
+`
+
+
+function cambia(){
+	//Vamor a tomar la cosa que se seleciono en el selector ya sea el fullname o grupo
+	let estudiante = select.estudiante[select.estudiante.selectIndex].value
+	if(estudiante !=0){
+		//Esta definido el estudiante
+
+	}
+}
+const tableBody = document.createElement("tbody")
+
+main.appendChild(table)
+table.appendChild(tableBody)
+function searchBar() {
+	const input = document.getElementById("myInput");
+	const filter = input.value.toUpperCase();
+	const tableRows = tableBody.getElementsByTagName("tr");
+	
+
+	for (let i = 0; i < tableRows.length; i++) {
+			const tableData = tableRows[i].getElementsByTagName("td")[0];
+			const tableDataApellido = tableRows[i].getElementsByTagName("td")[1];
+			if (tableData || tableDataApellido) {
+					const txtValue = tableData.textContent || tableData.innerText;
+					const txtValueApellido = tableDataApellido.textContent || tableDataApellido.innerText;
+					if (txtValue.toUpperCase().indexOf(filter) > -1 || txtValueApellido.toUpperCase().indexOf(filter) > -1 ) {
+							tableRows[i].style.display = "";
+					} else {
+							tableRows[i].style.display = "none";
+					}
+			}
+	}
+}
+
+	
+		searchBar();
+
+
+		let todosLosEstudiantes = [];
+
+		grupos.forEach(grupo => {
+			todosLosEstudiantes = todosLosEstudiantes.concat(grupo.alumnos);
+		});
+		todosLosEstudiantes.sort((estudiante1, estudiante2) => estudiante1.nombre.localeCompare(estudiante2.nombre, 'es', { sensitivity: 'base' }));
+		todosLosEstudiantes.forEach(alumno => {
+			const tableRow = document.createElement("tr");
 		
-		const fullName = estudiante.nombre + estudiante.apellido
-		newArr.push(fullName)
-		return newArr
+			const nombreTD = document.createElement('td');
+			nombreTD.innerHTML = alumno.nombre;
+		
+			const appellidoTD = document.createElement('td');
+			appellidoTD.innerHTML = alumno.apellido;
+		
+			const edadTD = document.createElement('td');
+			edadTD.innerHTML = alumno.edad;
+		
+			const materiaTD = document.createElement('td');
+			materiaTD.innerHTML = alumno.materia.join(", ");
+		
+			const promedioTD = document.createElement('td');
+			promedioTD.innerHTML = alumno.promedio();
+		
+			tableRow.appendChild(nombreTD);
+			tableRow.appendChild(appellidoTD);
+			tableRow.appendChild(edadTD);
+			tableRow.appendChild(materiaTD);
+			tableRow.appendChild(promedioTD);
+		
+			tableBody.appendChild(tableRow);
+		});
+				
+		
+		let isSortedAscending = true; // Variable bandera
 
-	})
+const averageButton = document.getElementById("desendant");
+
+averageButton.onclick = function() {
+    // Limpiar la tabla primero
+    tableBody.innerHTML = "";
+    
+    let todosLosEstudiantes = [];
+    grupos.forEach(grupo => {
+        todosLosEstudiantes = todosLosEstudiantes.concat(grupo.alumnos);
+    });
+
+
+    if(isSortedAscending) {
+        // Si está en orden ascendente, lo ordenamos en descendente
+        todosLosEstudiantes.sort((a, b) => b.promedio() - a.promedio());
+        averageButton.textContent = "Orden Ascendente"; // Cambias el texto del botón si deseas
+				averageButton.classList.add('rotada')
+    } else {
+        // Si está en orden descendente, lo ordenamos en ascendente
+        todosLosEstudiantes.sort((a, b) => a.promedio() - b.promedio());
+        averageButton.textContent = "Orden Descendente"; // Cambias el texto del botón si deseas
+				averageButton.classList.remove('rotada')
+    }
+
+    // Cambiamos el valor de la bandera
+    isSortedAscending = !isSortedAscending;
+
+    todosLosEstudiantes.forEach(alumno => {
+        const tableRow = document.createElement("tr");
+        
+        const nombreTD = document.createElement('td');
+        nombreTD.innerHTML = alumno.nombre;
+        
+        const appellidoTD = document.createElement('td');
+        appellidoTD.innerHTML = alumno.apellido;
+        
+        const edadTD = document.createElement('td');
+        edadTD.innerHTML = alumno.edad;
+        
+        const materiaTD = document.createElement('td');
+        materiaTD.innerHTML = alumno.materia.join(", ");
+        
+        const promedioTD = document.createElement('td');
+        promedioTD.innerHTML = alumno.promedio();
+        
+        tableRow.appendChild(nombreTD);
+        tableRow.appendChild(appellidoTD);
+        tableRow.appendChild(edadTD);
+        tableRow.appendChild(materiaTD);
+        tableRow.appendChild(promedioTD);
+        
+        tableBody.appendChild(tableRow);
+    });
 }
+
+function GrupoAverage(){
+
+	const tableGroup = document.createElement("table")
+	tableGroup.classList ="tabla-grupo" 
+	tableGroup.innerHTML = `
+
+	<thead >
+		<th>Group</th>
+		<th>Average</th>
+	</thead>
+	`
+	const tableBodyGroup = document.createElement("tbody")
+
+	main.appendChild(table)
+	tableGroup.appendChild(tableBodyGroup)
+		
+	grupos.forEach(grupo => {
+		let suma = 0;
+		grupo.alumnos.forEach(alumno => {
+				suma += alumno.promedio(); 
+		});
+		const promedioGrupo = suma / grupo.alumnos.length; 
+		console.log(promedioGrupo)
+		const tableRowGroup = document.createElement("tr")
+		const GrupoTD = document.createElement("td")
+		GrupoTD.innerHTML = grupo.nombreGrupo;
+		const promedioTD = document.createElement("td");
+		promedioTD.innerHTML = promedioGrupo; 
+		tableRowGroup.appendChild(GrupoTD)
+		tableRowGroup.appendChild(promedioTD)
+		tableBodyGroup.appendChild(tableRowGroup)
+		main.appendChild(tableGroup)
+	
+})}
+
+
+GrupoAverage()
